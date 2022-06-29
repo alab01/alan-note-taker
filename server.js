@@ -23,13 +23,18 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
+// Delete route for note
+app.delete('/api/notes/:id', (req, res) => {
+    deleteFromFile(req.params.id, './db/db.json');
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
+  });
 
-// GET Route for retrieving all the feedback
+// GET Route for retrieving all the notes
 app.get('/api/notes', (req, res) =>
   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
 );
 
-// POST Route for submitting feedback
+// POST Route for submitting notes
 app.post('/api/notes', (req, res) => {
     // Destructuring assignment for the items in req.body
     const { title, text } = req.body;
