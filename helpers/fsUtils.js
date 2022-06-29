@@ -15,10 +15,27 @@ const writeToFile = (destination, content) =>
     err ? console.error(err) : console.info(`\nData written to ${destination}`)
   );
 
+// function to read through .json file and delete specific note from file
+//loop to loop through parsedData and if id @ i == id then delete that note
+  const deleteFromFile = (id, file) => {
+    fs.readFile(file, 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        const parsedData = JSON.parse(data);
+        for (var i = 0; i < parsedData.length; i++) {
+          var note = parsedData[i];
+          if (note["id"] == id) {
+            parsedData.splice(i, 1);
+            break;
+          }
+        }
+        //wrties parsedData without the deleted file back to .json file
+        writeToFile(file, parsedData);
+      }
+    });
+  };
 
-
-
-  
 /**
  *  Function to read data from a given a file and append some content
  *  @param {object} content The content you want to append to the file.
